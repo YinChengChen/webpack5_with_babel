@@ -13,6 +13,19 @@ module.exports = {
     module:{
         rules:[
             {
+                // 配置 babel 第一步
+                test: /\.m?js$/,
+                // 排除 node_modules 與 bower_components 底下資料 (第二步)
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    // options: {
+                    //     // 配置 Babel 解析器 (第三步)
+
+                    // },
+                },
+            },
+            {
                 test: /\.(s[ac]ss)$/,
                 use:[
                     {
@@ -41,7 +54,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/html/index.html" // html 模板設定
         })
-    ],    
+    ],
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "bundle.js"
