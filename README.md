@@ -6,3 +6,7 @@
 1. 下載後用 npm install 將 package.json 的模組安裝
 2. 啟動 development 模式 npm run dev
 3. build 程式 npm run build
+
+### 備忘
+1. 記得刪除練習內容
+2. package.json 的環境需要訂正
