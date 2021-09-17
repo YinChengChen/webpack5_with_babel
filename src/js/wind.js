@@ -44,10 +44,15 @@ function wind_overlay(){
         if (Math.abs(coords[1]) > 90){
             console.log(x, y, coords, i, array_size);
         }
-        // let color =
+        // let color = get_color(coords[0], coords[1]);
     }
 }
 
-function get_color(long, lat){
+// function get_color(long, lat){
+//     let wind_strength;
+//     if((long in))
+// }
 
-}
+// function getData(){
+
+// }
