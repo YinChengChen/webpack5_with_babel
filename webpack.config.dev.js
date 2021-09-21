@@ -24,8 +24,7 @@ module.exports = {
 
                     // },
                 },
-            },
-            {
+            },{
                 test: /\.(s[ac]ss)$/,
                 use:[
                     {
@@ -45,6 +44,18 @@ module.exports = {
                         }
                     },{
                         loader: "sass-loader"
+                    }
+                ]
+            },{
+                type: "javascript/auto",
+                test: /\.json$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        // include: [path.resolve(__dirname, 'src/data')],
+                        options: {
+                            name: '[name].[ext]',
+                        }
                     }
                 ]
             }

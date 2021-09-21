@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-do</title>
+    <title>earth</title>
 <script defer src="bundle.js"></script><link href="main.css" rel="stylesheet"></head>
 <body>
-    <div id="app">
-        <h1>{{ text }}</h1>
-        <button class="btn btn-primary">click</button>
-        <svg id="earth"></svg>
-    </div>
+    <!-- <div id="app"> -->
+        <div class="container-fluid" id="app">
+            <div class="row vh-100">
+                <div class="col m-4">
+                    <!-- <svg id="legend"></svg> -->
+                    <!-- <h1>{{ text }}</h1> -->
+                    <svg class="w-100 h-100" id="earth" refs="earth_svg"></svg>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <button class="btn btn-primary">click</button> -->
+
+        <!-- <div id="legend"></div> -->
+    <!-- </div> -->
 </body>
 </html>

@@ -1,4 +1,4 @@
-export { createVertexShader, createFragmentShader, createVertexBuffer, createProgram, createTexture };
+export { createVertexShader, createFragmentShader, createVertexBuffer, createProgram, createTexture, to_radians };
 // 與風場動畫相關的 functions
 function createVertexShader(gl) {
     // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext
@@ -85,4 +85,11 @@ function createTexture(gl, image_object) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_object);
     return texture;
+}
+
+function to_radians(d){
+    if (d < 0){
+        return Math.abs(d) * Math.PI / 180;
+    }
+    return Math.PI + (180 - d) * Math.PI / 180;
 }

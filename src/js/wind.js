@@ -1,5 +1,6 @@
-import {scaleLinear, hsl, rgb, geoEquirectangular, geoGraticule10 } from "d3";
-export { interpolate_wind_sinebow };
+import {scaleLinear, hsl, rgb, geoEquirectangular, geoGraticule10, scaleSequential } from "d3";
+
+export { interpolate_wind_sinebow, bilinear_interpolation, wind_color_scale_accurate };
 function interpolate_wind_sinebow(t){
     const end_of_sinebow_scale = 0.3;
     const shift_constant = 0.82;
@@ -27,26 +28,52 @@ function sin2(t){
     return Math.sin(Math.PI * t) ** 2;
 }
 
-function wind_overlay(){
-    const lightness = 0.75;
-    const image_width = 4096 / 4;
-    const image_height = 2048 / 4;
-    const array_size = 4 * image_width * image_height;
-    const projection_overlay = geoEquirectangular().precision(0.1).fitSize([image_width, image_height], geoGraticule10());
-
-    let overlay_array = new Uint8ClampedArray(array_size);
-
-    let x = 0;
-    let y = 0;
-
-    for (let i = 0; i < array_size; i=i+4){
-        let coords = projection_overlay.invert([x, y]);
-        if (Math.abs(coords[1]) > 90){
-            console.log(x, y, coords, i, array_size);
-        }
-        // let color = get_color(coords[0], coords[1]);
+function bilinear_interpolation(long, lat, field_name, vectorData){
+    let G1, G2, G3, G4
+    var interpolated_value;
+    const i = long
+    const j = lat
+    const f_i = Math.floor(i)
+    const c_i = Math.ceil(i)
+    const f_j = Math.floor(j) 
+    const c_j = Math.ceil(j)
+    try{
+    G1 = vectorData[f_i][f_j][field_name]
+    G2 = vectorData[c_i][f_j][field_name]
+    G3 = vectorData[f_i][c_j][field_name]
+    G4 = vectorData[c_i][c_j][field_name]
     }
+    catch(err){
+      console.log(long, lat, field_name)
+    }
+    const grid_delta_i = 1
+    const grid_delta_j = 1
+    var interpolation_a
+    var interpolation_b
+    
+    if (f_i == c_i) {
+      interpolation_a = G1
+      interpolation_b = G3
+    }
+    else {
+      interpolation_a = (G1 * (c_i - i)/grid_delta_i) + (G2 * (i - f_i) / grid_delta_i)
+      interpolation_b = (G3 * (c_i - i)/grid_delta_i) + (G4 * (i - f_i) / grid_delta_i)
+    }
+    
+    if (f_j == c_j) {
+      interpolated_value = (interpolation_a + interpolation_b)/2 
+    }
+    else {
+      interpolated_value = (interpolation_a * (c_j - j)/grid_delta_j) + (interpolation_b * (j - f_j)/grid_delta_j)
+    }
+  return interpolated_value
 }
+
+function wind_color_scale_accurate(){
+    let scale = scaleSequential().domain([0, 200]).interpolator(interpolate_wind_sinebow);
+    return scale;
+};
+
 
 // function get_color(long, lat){
 //     let wind_strength;
